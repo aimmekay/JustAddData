@@ -145,9 +145,8 @@ def find_prob_fx_neq_gx(f_w, g_w):
     return float(wrong) / (density * density)
 
 
-def find_E_pts(f_w, g_w, pts, pts_labels):
-    """Find the percentage of pts that are misclassified by the learned fxn.
-    f_w is the target function vector, g_w is the learned function."""
+def find_E_pts(g_w, pts, pts_labels):
+    """Find the percentage of pts that are misclassified by the given fxn."""
 
     N = len(pts[:,0])
 
@@ -207,10 +206,6 @@ def main():
         x_trans = new_space(x_1s, x_2s, transform=transform)
         real_labels = classify_pts(f_w, x_trans)
 
-        plot_pts(x_trans, real_labels)
-
-        show()
-
         y = real_labels.copy()
         #   Second, give them random error
         flip_some(y, 0.1)
@@ -224,7 +219,7 @@ def main():
             ylabel("x_2")
             title("data to learn from")
             plot_pts(x_trans, y)
-            pause(0.5)
+            pause(1)
 
         # Use linear regression on a transformed space to learn the function
         g_w = linregress(x_trans, y)
@@ -236,7 +231,7 @@ def main():
 
         #prob_wrong_results[repeat_i] = find_prob_fx_neq_gx(f_w, g_w)
 
-        E_in_results[repeat_i] = find_E_pts(f_w, g_w, x_trans, y)
+        E_in_results[repeat_i] = find_E_pts(g_w, x_trans, y)
         title("misclassified points are magenta")
 
 
@@ -253,7 +248,8 @@ def main():
         #    pause(0.5)
         #E_out_results[repeat_i] = find_E_pts(f_w, g_w, out_pts_trans, y_out)
 
-        show()
+        if VISUALIZE:
+            show()
 
     #av_prob_wrong = mean(prob_wrong_results)
     #print "av_prob_wrong=",av_prob_wrong
@@ -265,9 +261,5 @@ def main():
     print "av_g_w=",av_g_w
 
 
-
-
-
 if __name__ == '__main__':
     main()
-
