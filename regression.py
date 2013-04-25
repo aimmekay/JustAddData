@@ -1,4 +1,4 @@
-# The Linear Regression Algorithm
+# The (Nonlinear) Regression Algorithm
 # on input of two dimensions
 #
 # Katie Cunningham
